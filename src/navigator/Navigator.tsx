@@ -1,25 +1,36 @@
-import { useEffect } from 'react';
-import { View } from 'react-native';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { useAppModule } from '@modules/app.module';
-import DrawerNavigator from './drawer';
+import { createStackNavigator } from '@react-navigation/stack';
+import Home from '@views/Home';
+import Detail from '@views/Detail';
+import Entry from '@views/Entry';
 
-function Navigator() {
-  const { dispatch, checked, loggedIn, loadUser } = useAppModule();
+export type RootStackParamList = {
+  Home: undefined;
+  Entry: undefined;
+  Detail: {
+    symptomId: string;
+  };
+};
 
-  useEffect(() => {
-    dispatch(loadUser());
-  }, []);
+const RootStack = createStackNavigator<RootStackParamList>();
+interface NavigatorProps {
+  initialRouteName: 'Home';
+}
 
-  // TODO: switch router by loggedIn status
-  console.log('[##] loggedIn', loggedIn);
-
-  return checked && loggedIn ? (
+function Navigator({ initialRouteName }: NavigatorProps) {
+  return (
     <NavigationContainer>
-      <DrawerNavigator />
+      <RootStack.Navigator
+        initialRouteName={initialRouteName}
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <RootStack.Screen name="Home" component={Home} />
+        <RootStack.Screen name="Entry" component={Entry} />
+        <RootStack.Screen name="Detail" component={Detail} />
+      </RootStack.Navigator>
     </NavigationContainer>
-  ) : (
-    <View />
   );
 }
 

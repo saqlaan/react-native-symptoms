@@ -8,4 +8,6 @@ export const colors = {
   black: '#000000',
   white: '#ffffff',
   transparent: 'transparent',
+  red: '#a22d4b',
+  red1: '#960e39',
 };

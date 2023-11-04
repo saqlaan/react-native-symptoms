@@ -1,15 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
-import app from '@modules/app.module';
+import app from '@modules/symptoms.module';
 import config from '@utils/config';
 
 const store = configureStore({
   reducer: {
     app,
-    // add more store ...
   },
   middleware: getDefaultMiddleware =>
-    config.env === 'dev' ? getDefaultMiddleware().concat(logger) : getDefaultMiddleware(),
+    config.env === 'dev'
+      ? getDefaultMiddleware({ serializableCheck: false }).concat(logger)
+      : getDefaultMiddleware({ serializableCheck: false }),
   devTools: config.env === 'dev',
 });
 
