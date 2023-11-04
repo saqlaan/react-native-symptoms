@@ -40,8 +40,8 @@ To run this project, you will need to have Node.js and the Expo CLI installed on
 Built With
 ----------
 
-*   [Expo](https://expo.dev/) - The framework used
-*   [React Native](https://reactnative.dev/) - The framework used
+*   [Expo](https://expo.dev/) 
+*   [React Native](https://reactnative.dev/)
 *   [NativeBase](https://nativebase.io/)
 
 Authors
