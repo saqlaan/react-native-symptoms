@@ -10,6 +10,7 @@ Following features are available in the app
 
 Preview
 ---------------
+![MergedImages](https://github.com/saqlaan/react-native-symptoms/assets/84536251/72e6b2c4-d225-48d2-9137-ec9dbc58b93f)
 
 
 
