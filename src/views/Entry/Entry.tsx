@@ -73,7 +73,7 @@ export default function Entry() {
       </Box>
       {isSuccessModalVisible && (
         <Modal isOpen>
-          <Modal.Content backgroundColor="transparent" maxH="220">
+          <Modal.Content backgroundColor="white" maxH="220">
             <Modal.Body>
               <Box height={200}>
                 <LottieView

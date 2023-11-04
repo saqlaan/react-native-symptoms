@@ -1,7 +1,7 @@
 import RNDateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { Actionsheet, Box } from 'native-base';
 import React, { ReactNode, createContext, useCallback, useState } from 'react';
-import { Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Keyboard, Platform, TouchableWithoutFeedback } from 'react-native';
 
 type DateSelectorContextType = {
   showBottomSheet: (value?: string) => void;
@@ -29,14 +29,23 @@ const DateSelectorProvider = ({ children }: { children: ReactNode }) => {
     setVisible(false);
   };
 
-  const handleOnChange = useCallback((event: DateTimePickerEvent, date?: Date) => {
-    if (date) setValue(date.toString());
-  }, []);
+  const handleOnChange = useCallback(
+    (event: DateTimePickerEvent, date?: Date) => {
+      if (date) setValue(date.toString());
+      if (
+        (Platform.OS === 'android' && event.type === 'set') ||
+        event.type === 'neutralButtonPressed' ||
+        event.type === 'dismissed'
+      ) {
+        closeBottomSheet();
+      }
+    },
+    [closeBottomSheet],
+  );
 
-  return (
-    <DateSelectorContext.Provider value={{ showBottomSheet, value, closeBottomSheet }}>
-      {children}
-      {/* {visible && (
+  const renderPlatformSpecificCalendar = () => {
+    if (Platform.OS === 'ios') {
+      return (
         <Actionsheet isOpen onClose={() => closeBottomSheet()}>
           <Actionsheet.Content>
             <Box w="100%" px={4} justifyContent="center">
@@ -52,7 +61,47 @@ const DateSelectorProvider = ({ children }: { children: ReactNode }) => {
             </Box>
           </Actionsheet.Content>
         </Actionsheet>
-      )} */}
+      );
+    } else {
+      return (
+        <Box w="100%" px={4} justifyContent="center">
+          <Box>
+            <RNDateTimePicker
+              onChange={handleOnChange}
+              value={new Date(value)}
+              mode="date"
+              display="spinner"
+              maximumDate={new Date()}
+            />
+          </Box>
+        </Box>
+      );
+    }
+  };
+
+  return (
+    <DateSelectorContext.Provider value={{ showBottomSheet, value, closeBottomSheet }}>
+      <TouchableWithoutFeedback onPress={() => closeBottomSheet()}>
+        {children}
+      </TouchableWithoutFeedback>
+      {
+        visible && renderPlatformSpecificCalendar()
+        // <Actionsheet isOpen onClose={() => closeBottomSheet()}>
+        //   <Actionsheet.Content>
+        //     <Box w="100%" px={4} justifyContent="center">
+        //       <Box>
+        //         <RNDateTimePicker
+        //           onChange={handleOnChange}
+        //           value={new Date(value)}
+        //           mode="date"
+        //           display="spinner"
+        //           maximumDate={new Date()}
+        //         />
+        //       </Box>
+        //     </Box>
+        //   </Actionsheet.Content>
+        // </Actionsheet>
+      }
     </DateSelectorContext.Provider>
   );
 };

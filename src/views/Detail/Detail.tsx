@@ -39,7 +39,7 @@ export default function Detail() {
           isFormEnabled={false}
         />
       </ScrollView>
-      <Box px="2.5">
+      <Box px="2.5" pb="2.5">
         <Button title="Delete" onPress={handleDeleteItem} />
       </Box>
     </Box>

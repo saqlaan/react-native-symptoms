@@ -5,6 +5,8 @@ import FormInput from '@components/FormInput/FormInput';
 import FormDateInput from '@components/FormDateInput';
 import { SeverityEnum, SymptomsType } from '@customTypes/types';
 import { colors } from '@theme';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { Platform } from 'react-native';
 
 interface SymptomFormPropType {
   values: SymptomsType;
@@ -48,15 +50,17 @@ export default function SymptomForm({
         error={errors.date}
         isEnabled={isFormEnabled}
       />
-      <FormInput
-        value={values.severity ?? ''}
-        placeholder="Select"
-        label="Severity"
-        isReadOnly
-        onPressIn={() => (isFormEnabled ? setShowActionSheet(true) : null)}
-        autoCapitalize="words"
-        error={errors.severity}
-      />
+
+      <TouchableWithoutFeedback onPressIn={() => (isFormEnabled ? setShowActionSheet(true) : null)}>
+        <FormInput
+          value={values.severity ?? ''}
+          placeholder="Select"
+          label="Severity"
+          isReadOnly
+          autoCapitalize="words"
+          error={errors.severity}
+        />
+      </TouchableWithoutFeedback>
       <FormControl>
         <Stack mx="4">
           <FormControl.Label>Description</FormControl.Label>
@@ -65,7 +69,7 @@ export default function SymptomForm({
             onChangeText={value => setFieldValue('details', value)}
             autoCompleteType="none"
             size="lg"
-            minHeight={150}
+            minHeight={Platform.OS === 'ios' ? 150 : '0'}
             placeholder="Please describe your symptom..."
             autoCorrect={false}
             autoCapitalize="none"
@@ -74,7 +78,7 @@ export default function SymptomForm({
           />
         </Stack>
       </FormControl>
-      {/* <Actionsheet isOpen={showActionSheet} onClose={() => setShowActionSheet(false)}>
+      <Actionsheet isOpen={showActionSheet} onClose={() => setShowActionSheet(false)}>
         <Actionsheet.Content>
           <Box w="100%" h={60} px={4} justifyContent="center">
             <Text
@@ -97,7 +101,7 @@ export default function SymptomForm({
             Critical
           </Actionsheet.Item>
         </Actionsheet.Content>
-      </Actionsheet> */}
+      </Actionsheet>
     </Box>
   );
 }
