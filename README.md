@@ -40,11 +40,14 @@ To run this project, you will need to have Node.js and the Expo CLI installed on
 Built With
 ----------
 
-*   [Expo](https://expo.dev/) 
+*   [Expo](https://expo.dev/)
+*   [Typescript](https://www.typescriptlang.org/)
 *   [React Native](https://reactnative.dev/)
 *   [NativeBase](https://nativebase.io/)
+*   [Redux](https://redux.js.org/)
+*   [React Native Navigation](https://reactnavigation.org/)
 
 Authors
 -------
 
-*   [Saqlain Awan](https://github.com/saqlaan)
+*   [Malik M. Saqlain](https://github.com/saqlaan)
