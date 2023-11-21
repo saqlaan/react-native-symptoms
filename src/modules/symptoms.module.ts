@@ -26,7 +26,7 @@ const slice = createSlice({
 
 export function useSymptomsReducer() {
   const dispatch = useDispatch<Dispatch>();
-  const list = useSelector(({ app }: State) => app.list);
+  const list = useSelector(({ list }: State) => list);
   return { dispatch, list, ...slice.actions };
 }
 

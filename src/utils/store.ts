@@ -3,10 +3,19 @@ import logger from 'redux-logger';
 import app from '@modules/symptoms.module';
 import config from '@utils/config';
 
+import { persistReducer, persistStore } from 'redux-persist';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const persistConfig = {
+  key: 'app',
+  version: 1,
+  storage: AsyncStorage,
+};
+
+const persistedReducer = persistReducer(persistConfig, app);
+
 const store = configureStore({
-  reducer: {
-    app,
-  },
+  reducer: persistedReducer,
   middleware: getDefaultMiddleware =>
     config.env === 'dev'
       ? getDefaultMiddleware({ serializableCheck: false }).concat(logger)
@@ -17,4 +26,6 @@ const store = configureStore({
 export type State = ReturnType<typeof store.getState>;
 export type Dispatch = typeof store.dispatch;
 
-export default store;
+const persistor = persistStore(store);
+
+export { store, persistor };
